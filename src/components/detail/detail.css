@@ -8,6 +8,7 @@
         padding: 30px 20px;
         flex-direction: column;
         border-bottom: 1px solid #dddddd35;
+        height: 240px;
 
         img{
             width: 100px;
@@ -17,10 +18,10 @@
         }
     }
     .info{
-        padding: 20px;
+        padding: 10px;
         display: flex;
         flex-direction: column;
-        gap: 30px;
+        gap: 20px;
 
         .option{
 
@@ -38,16 +39,19 @@
                     cursor: pointer;
                 }
             }
+
             .photos{
                 margin-top: 20px;
                 display: flex;
                 flex-direction: column;
                 gap: 20px;
+                height: 5rem;
 
                 .photoitem{
                     display: flex;
                     align-items: center;
                     justify-content: space-between;
+                    
 
                     .photodetail{
                             display: flex;
@@ -60,6 +64,7 @@
                             border-radius: 5px;
                             object-fit: cover;
                         }
+
                         span{
                             font-size: 14px;
                             color: lightgray;
@@ -76,13 +81,24 @@
                     }
                 }
             }
-            bottom{
-                padding: 10px 20px;
-                background-color: rgba(230,74,105,0.553);
-                color: white;
-                border: none;
+        }
+        button{
+            padding: 10px 20px;
+            background-color: rgba(230,74,105,0.553);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+
+            &:hover{
+                background-color: rgba(221, 31, 69, 0.8);
+            }
+            &.logout{
+                background-color: rgba(49, 116, 241, 0.8);
+                padding: 10px;
             }
         }
+        
     }
 
 }
