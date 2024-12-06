@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import "./chatlist.css"
+import "./chatlist.css";
+import Adduser from "./adddUser/adduser";
 
 const Chatlist = () => {
   const [addMode, setAddMode] = useState(false);
@@ -18,6 +19,11 @@ const Chatlist = () => {
           onClick={() => setAddMode((prev) => !prev)}
         />
       </div>
+      {addMode && (
+        <div className="adduser-container">
+          <Adduser />
+        </div>
+      )}
       <div className="item">
         <img src="./avatar.png" alt="" />
         <div className="texts">
@@ -61,7 +67,7 @@ const Chatlist = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default Chatlist;
