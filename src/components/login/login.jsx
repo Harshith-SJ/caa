@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./login.css";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth, db } from "../../lib/firebase";  // Single import for both auth and db
+import { doc, setDoc } from "firebase/firestore";
 
 const Login = () => {
   const [avatar, setAvatar] = useState({
@@ -18,16 +21,33 @@ const Login = () => {
     }
   };
 
-  const handleLogin = e => {
-    e.preventDefault();
-  };
-  const handleRegister = e => {
+  const handleRegister = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
+    const { username, email, password } = Object.fromEntries(formData);
 
-     const {username, email, password} = Object.fromEntries(formData);
-
+    try {
+      const res = await createUserWithEmailAndPassword(auth, email, password);
       
+      await setDoc(doc(db, "users", res.user.uid), {
+        username, 
+        email,
+        id: res.user.uid,
+        blocked: [],
+      });
+      await setDoc(doc(db, "userchats", res.user.uid), {
+        chats: [],
+      });
+      toast.success("Account created successfully");
+    } catch (error) {
+      console.log(error);
+      toast.error("Error creating account: " + error.message);
+    }
+  };
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+   
   };
 
   return (
@@ -46,14 +66,13 @@ const Login = () => {
         <h2>Create an Account</h2>
         <form onSubmit={handleRegister}>
           <label htmlFor="file">
-            <img src={avatar.url || "./avatar.png"} alt="" />
-            Upload the image
+            <img src={avatar.url || "./avatar.png"} alt="Avatar" />
+            <input type="file" id="file" onChange={handleAvatar} />
           </label>
-          <input type="file" id="file" style={{ display: "none" }} onChange={handleAvatar} />
-          <input type="text" placeholder="username" name="username" />
-          <input type="text" placeholder="Email" name="email" />
+          <input type="text" placeholder="Username" name="username" />
+          <input type="email" placeholder="Email" name="email" />
           <input type="password" placeholder="Password" name="password" />
-          <button>Sign In</button>
+          <button type="submit">Register</button>
         </form>
       </div>
     </div>
